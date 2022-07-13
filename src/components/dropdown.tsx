@@ -1,18 +1,8 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { List } from 'react-native-paper';
-import { Props } from 'react-native-paper/lib/typescript/components/RadioButton/RadioButton';
-
-type DropdownProps = {
-  title: string;
-  items: DropdownItem[];
-  // selected: DropdownItem;
-};
-
-type DropdownItem = {
-  displayName: string;
-  value: string | null;
-};
+//import { Props } from 'react-native-paper/lib/typescript/components/RadioButton/RadioButton';
+import { DropdownItem, DropdownProps } from '../types/DropDownItem';
 
 const listStyle = StyleSheet.create({
   container: {
@@ -20,17 +10,18 @@ const listStyle = StyleSheet.create({
   },
 });
 
-const defaultStation: DropdownItem = {
-  displayName: 'Pick a station',
-  value: null,
-};
-
-
-const DropDown: React.FC<DropdownProps> = ({ title, items }) => {
+const DropDown: React.FC<DropdownProps> = ({
+  title,
+  items,
+  setSelected,
+  selected,
+}) => {
   const [expanded, setExpanded] = React.useState(true);
-  const handlePress = () => setExpanded(!expanded);
-  const [selected, setSelected] = React.useState(defaultStation);
-  const itemSelected = (item: DropdownItem) => setSelected(item);
+  //const handlePress = () => setExpanded(!expanded);
+  const itemSelected = (item: DropdownItem) => {
+    setSelected(item);
+    setExpanded(!expanded);
+  };
   //const [];
 
   return (
@@ -39,8 +30,8 @@ const DropDown: React.FC<DropdownProps> = ({ title, items }) => {
         style={listStyle.container}
         title={selected.displayName}
         left={(props) => <List.Icon {...props} icon="train" />}
-        //expanded={expanded}
-        //onPress={handlePress}
+        expanded={expanded}
+        onPress={() => setExpanded(!expanded)}
       >
         {items.map((item: DropdownItem) => (
           <List.Item

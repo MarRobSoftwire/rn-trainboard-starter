@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import { ScreenNavigationProps } from '../routes';
-import { items } from '../trainData/avaliableStations.json';
 
 const styles = StyleSheet.create({
   container: {
