@@ -6,8 +6,7 @@ import { Props } from 'react-native-paper/lib/typescript/components/RadioButton/
 type DropdownProps = {
   title: string;
   items: DropdownItem[];
-  setSelected: React.Dispatch<React.SetStateAction<DropdownItem>>;
-  selected: DropdownItem;
+  // selected: DropdownItem;
 };
 
 type DropdownItem = {
@@ -21,17 +20,17 @@ const listStyle = StyleSheet.create({
   },
 });
 
-const DropDown: React.FC<DropdownProps> = ({
-  title,
-  items,
-  setSelected,
-  selected,
-}) => {
+const defaultStation: DropdownItem = {
+  displayName: 'Pick a station',
+  value: null,
+};
+
+
+const DropDown: React.FC<DropdownProps> = ({ title, items }) => {
   const [expanded, setExpanded] = React.useState(true);
   const handlePress = () => setExpanded(!expanded);
-  const itemSelected = (item: DropdownItem) => {
-    setSelected(item);
-  };
+  const [selected, setSelected] = React.useState(defaultStation);
+  const itemSelected = (item: DropdownItem) => setSelected(item);
   //const [];
 
   return (
@@ -54,6 +53,5 @@ const DropDown: React.FC<DropdownProps> = ({
     </List.Section>
   );
 };
-
 
 export default DropDown;

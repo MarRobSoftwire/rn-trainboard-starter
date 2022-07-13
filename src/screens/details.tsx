@@ -4,10 +4,6 @@ import { Text } from 'react-native-paper';
 import DropDown from '../components/dropdown';
 import { items } from '../trainData/avaliableStations.json';
 
-type DropdownItem = {
-  displayName: string;
-  value: string | null;
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -18,32 +14,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const defaultStation: DropdownItem = {
-  displayName: 'Pick a station',
-  value: null,
-};
-
-const DetailsScreen: React.FC = () => {
-  const [selected, setSelected] = React.useState(defaultStation);
-
-  return (
-    <View style={styles.container}>
-      <Text>Details Screen</Text>
-      <DropDown
-        title="From"
-        items={items}
-        setSelected={setSelected}
-        selected={selected}
-      ></DropDown>
-      <DropDown
-        title="From"
-        items={items}
-        setSelected={setSelected}
-        selected={selected}
-      ></DropDown>
-      <Text>{selected}</Text>
-    </View>
-  );
-};
+const DetailsScreen: React.FC = () => (
+  <View style={styles.container}>
+    <Text>Details Screen</Text>
+    <DropDown title="From" items={items}></DropDown>
+    <DropDown title="To" items={items}></DropDown>
+  </View>
+);
 
 export default DetailsScreen;
