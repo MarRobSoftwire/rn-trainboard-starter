@@ -10,8 +10,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'lightblue',
-    //alignItems: 'center',
-    //justifyContent: 'center',
   },
 });
 
@@ -74,5 +72,3 @@ const DetailsScreen: React.FC<DetailsScreenProps> = ({ navigation }) => {
 };
 
 export default DetailsScreen;
-
-//const URl = `https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/${Station1}/${Station2}/#LiveDepResults`

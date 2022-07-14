@@ -25,8 +25,9 @@ type JourneyOutput = {
   journeyID: string;
   departureTime?: string;
   arrivalTime?: string;
+  // TO DO : Add functionality
   //primaryTrainOperator: TrainOperator;
-  // tickets: Array<Tickets>;
+  //tickets: Array<Tickets>;
 };
 
 type JourneyResponse = {
@@ -76,15 +77,6 @@ const getJourney = async (): Promise<JourneyResponse> => {
 };
 
 const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
-  // function openTrainTimesUrl(
-  //   departureStationCode: string,
-  //   arrivalStationCode: string,
-  // ) {
-  //   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  //   Linking.openURL(
-  //     `https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/${departureStationCode}/${arrivalStationCode}/#LiveDepResults`,
-  //   );
-  // }
 
   const [journey, setJourney] = React.useState<JourneyResponse | null>(null);
   useEffect(() => {
