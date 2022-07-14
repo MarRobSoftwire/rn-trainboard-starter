@@ -6,7 +6,6 @@ import { items } from '../trainData/avaliableStations.json';
 import { DropdownItem } from '../types/DropDownItem';
 import { ScreenNavigationProps } from '../routes';
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -24,7 +23,6 @@ const defaultStation: DropdownItem = {
 type DetailsScreenProps = ScreenNavigationProps<'Details'>;
 
 const DetailsScreen: React.FC<DetailsScreenProps> = ({ navigation }) => {
-
   const [departureStation, setDeparture] = React.useState(defaultStation);
   const [arrivalStation, setArrival] = React.useState(defaultStation);
 
@@ -59,6 +57,17 @@ const DetailsScreen: React.FC<DetailsScreenProps> = ({ navigation }) => {
         }
       >
         Find trains
+      </Button>
+      <Button
+        mode="contained"
+        onPress={() =>
+          navigation.navigate('Journey', {
+            departStation: departureStation,
+            arriveStation: arrivalStation,
+          })
+        }
+      >
+        JourneyPage
       </Button>
     </View>
   );

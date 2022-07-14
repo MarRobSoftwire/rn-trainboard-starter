@@ -9,6 +9,7 @@ import DetailsScreen from './src/screens/details';
 import HomeScreen from './src/screens/home';
 import 'react-native-gesture-handler';
 import { config } from './src/config';
+import JourneyScreen from './src/screens/journey';
 
 // This ensures that a valid dotenv config is pulled before allowing the app to run,
 // helping to avoid unnoticed runtime crashes due to invalid config.
@@ -19,6 +20,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 enum Routes {
   HOME = 'Home',
   DETAILS = 'Details',
+  JOURNEY = 'Journey',
 }
 
 const App: React.FC = () => (
@@ -30,8 +32,9 @@ const App: React.FC = () => (
           header: (props) => <TopBar {...props} />,
         }}
       >
-        <Stack.Screen name={Routes.HOME} component={HomeScreen} />
+        <Stack.Screen name={Routes.HOME} component={HomeScreen}/>
         <Stack.Screen name={Routes.DETAILS} component={DetailsScreen} />
+        <Stack.Screen name={Routes.JOURNEY} component={JourneyScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   </PaperProvider>
