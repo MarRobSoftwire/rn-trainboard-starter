@@ -23,8 +23,8 @@ type JourneyScreenProps = ScreenNavigationProps<'Journey'>;
 
 type JourneyOutput = {
   journeyID: string;
-  departureTime?: string;
-  arrivalTime?: string;
+  departureTime: string;
+  arrivalTime: string;
   // TO DO : Add functionality
   //primaryTrainOperator: TrainOperator;
   //tickets: Array<Tickets>;
@@ -60,6 +60,9 @@ const defaultJourneyOutput: JourneyOutput = {
   arrivalTime: 'Waiting for arrival time ...',
 };
 
+//
+//TODO: add originStation and destinationStation functionality
+//
 const getJourney = async (): Promise<JourneyResponse> => {
   const response = await fetch(
     `${baseUrl}/v1/fares?originStation=KGX&destinationStation=DON&outboundDateTime=2022-07-15T12:16:27.371&numberOfChildren=0&numberOfAdults=1`,
@@ -77,7 +80,6 @@ const getJourney = async (): Promise<JourneyResponse> => {
 };
 
 const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
-
   const [journey, setJourney] = React.useState<JourneyResponse | null>(null);
   useEffect(() => {
     const updateJourney = async () => {
@@ -87,28 +89,35 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
     void updateJourney();
   }, [journey]);
 
-  const [message, setMessage] =
-    React.useState<JourneyOutput>(defaultJourneyOutput);
+  const [tickets, setTickets] = React.useState<Array<string>>([
+    defaultJourneyOutput.journeyID,
+  ]);
+
   useEffect(() => {
-    const journeyOut =
-      journey === null
-        ? defaultJourneyOutput
-        : {
-            journeyID: journey.outboundJourneys[0].journeyId,
-            departureTime: journey.outboundJourneys[0].departureTime,
-            arrivalTime: journey.outboundJourneys[0].arrivalTime,
-          };
-    void setMessage(journeyOut);
+    const journeyOut = [];
+    if (journey === null) {
+      journeyOut.push(defaultJourneyOutput.journeyID);
+    } else {
+      for (let i = 0; i < journey.outboundJourneys.length; i++) {
+        journeyOut.push(journey.outboundJourneys[i].journeyId);
+      }
+    }
+    // journey === null
+    //   ? [defaultJourneyOutput.journeyID]
+    //   : journey.outboundJourneys.map<string>(
+    //     (outboundJourney: OutboundJourney) => {
+    //         outboundJourney.journeyId;
+    //     },
+    //   );
+    void setTickets(journeyOut);
   }, [journey]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Journey Screen</Text>
-      <Text>
-        {message.departureTime}
-        {'\n'}
-        {message.arrivalTime}
-      </Text>
+      {tickets.map((ticket: string) => (
+        <Text>{ticket}</Text>
+      ))}
     </View>
   );
 };
