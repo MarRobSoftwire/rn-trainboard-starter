@@ -63,9 +63,12 @@ const defaultJourneyOutput: JourneyOutput = {
 //
 //TODO: add originStation and destinationStation functionality
 //
-const getJourney = async (): Promise<JourneyResponse> => {
+const getJourney = async (
+  originStationCode: string,
+  destinationStationCode: string,
+): Promise<JourneyResponse> => {
   const response = await fetch(
-    `${baseUrl}/v1/fares?originStation=KGX&destinationStation=DON&outboundDateTime=2022-07-15T12:16:27.371&numberOfChildren=0&numberOfAdults=1`,
+    `${baseUrl}/v1/fares?originStation=${originStationCode}&destinationStation=${destinationStationCode}&outboundDateTime=2022-07-15T12:16:27.371&numberOfChildren=0&numberOfAdults=1`,
     {
       method: 'GET',
       headers: {
@@ -83,7 +86,10 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
   const [journey, setJourney] = React.useState<JourneyResponse | null>(null);
   useEffect(() => {
     const updateJourney = async () => {
-      const journey = await getJourney();
+      const journey = await getJourney(
+        route.params.departStation.value,
+        route.params.arriveStation.value,
+      );
       setJourney(journey);
     };
     void updateJourney();
@@ -102,13 +108,6 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
         journeyOut.push(journey.outboundJourneys[i].journeyId);
       }
     }
-    // journey === null
-    //   ? [defaultJourneyOutput.journeyID]
-    //   : journey.outboundJourneys.map<string>(
-    //     (outboundJourney: OutboundJourney) => {
-    //         outboundJourney.journeyId;
-    //     },
-    //   );
     void setTickets(journeyOut);
   }, [journey]);
 
@@ -116,7 +115,7 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
     <View style={styles.container}>
       <Text style={styles.text}>Journey Screen</Text>
       {tickets.map((ticket: string) => (
-        <Text>{ticket}</Text>
+        <Text key={ticket}>{ticket}</Text>
       ))}
     </View>
   );
