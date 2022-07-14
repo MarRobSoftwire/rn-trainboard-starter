@@ -3,6 +3,12 @@
   "include": ["**/*"],
   "types": ["react"],
   "compilerOptions": {
-    "strict": true
+    "jsx": "react",
+    "jsx": "react",
+    "jsx": "react",
+    "jsx": "react",
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }

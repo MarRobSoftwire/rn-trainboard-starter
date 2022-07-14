@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, Button } from 'react-native-paper';
-
 import { ScreenNavigationProps } from '../routes';
 
 const styles = StyleSheet.create({

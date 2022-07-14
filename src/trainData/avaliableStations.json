@@ -1,0 +1,17 @@
+
+{
+    "items" : [
+        {
+            "displayName" : "Kings cross",
+            "value" : "KGX"
+        },
+        {
+            "displayName" : "Doncaster",
+            "value" : "DON"
+        },
+        {
+            "displayName" : "Edinburgh",
+            "value" : "EDB"
+        }
+    ]
+}
