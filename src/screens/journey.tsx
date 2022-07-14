@@ -1,9 +1,11 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { StyleSheet, View, Linking } from 'react-native';
+import { StyleSheet, View, } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import { config } from '../config';
 import { ScreenNavigationProps } from '../routes';
+import TicketFlatList from '../components/ticketsFlatList';
+import { JourneyOutput } from '../types/JourneyOutput';
 
 const baseUrl = 'https://mobile-api-softwire2.lner.co.uk';
 
@@ -20,15 +22,6 @@ const styles = StyleSheet.create({
 });
 
 type JourneyScreenProps = ScreenNavigationProps<'Journey'>;
-
-type JourneyOutput = {
-  journeyID: string;
-  departureTime: string;
-  arrivalTime: string;
-  // TO DO : Add functionality
-  //primaryTrainOperator: TrainOperator;
-  //tickets: Array<Tickets>;
-};
 
 type JourneyResponse = {
   numberOfAdults: number;
@@ -95,17 +88,21 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
     void updateJourney();
   }, [journey]);
 
-  const [tickets, setTickets] = React.useState<Array<string>>([
-    defaultJourneyOutput.journeyID,
+  const [tickets, setTickets] = React.useState<Array<JourneyOutput>>([
+    defaultJourneyOutput,
   ]);
 
   useEffect(() => {
-    const journeyOut = [];
+    const journeyOut = Array<JourneyOutput>();
     if (journey === null) {
-      journeyOut.push(defaultJourneyOutput.journeyID);
+      journeyOut.push(defaultJourneyOutput);
     } else {
       for (let i = 0; i < journey.outboundJourneys.length; i++) {
-        journeyOut.push(journey.outboundJourneys[i].journeyId);
+        journeyOut.push({
+          journeyID: journey.outboundJourneys[i].journeyId,
+          departureTime: journey.outboundJourneys[i].departureTime,
+          arrivalTime: journey.outboundJourneys[i].arrivalTime,
+        });
       }
     }
     void setTickets(journeyOut);
@@ -114,9 +111,7 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Journey Screen</Text>
-      {tickets.map((ticket: string) => (
-        <Text key={ticket}>{ticket}</Text>
-      ))}
+      <TicketFlatList items={tickets} />
     </View>
   );
 };
