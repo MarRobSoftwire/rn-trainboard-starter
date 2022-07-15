@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'orange',
   },
   footer: {
-    align: 'right',
     backgroundColor: 'orange',
   }
 });
@@ -48,10 +47,12 @@ const TicketsFlatList: React.FC<TicketFlatListProps> = ({ items }) => {
         To: {item.destinationStation.displayName}
       </Text>
         <Text>
-          {item.departureTime.slice(0, 10)} {item.departureTime.slice(11, 16)}
+          {mapIsoDateTimeToDisplayDate(item.departureTime)}{'  '}
+          {mapIsoDateTimeToDisplayTime(item.departureTime)}
         </Text>
         <Text>
-          {item.arrivalTime.slice(0, 10)} {item.arrivalTime.slice(11, 16)}
+          {mapIsoDateTimeToDisplayDate(item.arrivalTime)}{'  '}
+          {mapIsoDateTimeToDisplayTime(item.arrivalTime)}
         </Text>
         <Text>{item.primaryTrainOperator.name}</Text>
       </View>
@@ -70,5 +71,10 @@ const TicketsFlatList: React.FC<TicketFlatListProps> = ({ items }) => {
     />
   );
 };
+
+const mapIsoDateTimeToDisplayDate = (dateTime: string): string =>
+  dateTime.slice(0, 10);
+const mapIsoDateTimeToDisplayTime = (dateTime: string): string =>
+  dateTime.slice(11, 16);
 
 export default TicketsFlatList;
