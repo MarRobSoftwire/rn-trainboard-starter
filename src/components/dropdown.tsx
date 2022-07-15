@@ -1,11 +1,14 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { List } from 'react-native-paper';
 import { DropdownItem, DropdownProps } from '../types/DropDownItem';
 
 const listStyle = StyleSheet.create({
   container: {
     backgroundColor: '#83ccde',
+  },
+  scrollView: {
+    height: 100,
   },
 });
 
@@ -30,13 +33,15 @@ const DropDown: React.FC<DropdownProps> = ({
         expanded={expanded}
         onPress={() => setExpanded(!expanded)}
       >
-        {items.map((item: DropdownItem) => (
-          <List.Item
-            key={item.value}
-            title={item.displayName}
-            onPress={() => itemSelected(item)}
-          />
-        ))}
+        <ScrollView style={listStyle.scrollView}>
+          {items.map((item: DropdownItem) => (
+            <List.Item
+              key={item.value}
+              title={item.displayName}
+              onPress={() => itemSelected(item)}
+            />
+          ))}
+        </ScrollView>
       </List.Accordion>
     </List.Section>
   );
