@@ -5,50 +5,24 @@ import { Text, Button } from 'react-native-paper';
 import { config } from '../config';
 import { ScreenNavigationProps } from '../routes';
 import TicketFlatList from '../components/ticketsFlatList';
-import {
-  JourneyOutput,
-  Ticket,
-  TrainOperator,
-  StationInfo,
-} from '../types/JourneyOutput';
+import { JourneyResponse } from '../types/JourneyResponse';
+import { JourneyOutput } from '../types/JourneyOutput';
+
+type JourneyScreenProps = ScreenNavigationProps<'Journey'>;
 
 const baseUrl = 'https://mobile-api-softwire2.lner.co.uk';
 
 const styles = StyleSheet.create({
   container: {
-    flex:1, 
+    flex: 1,
     backgroundColor: 'light blue',
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
   text: {
-    padding:5,
+    padding: 5,
   },
 });
-
-type JourneyScreenProps = ScreenNavigationProps<'Journey'>;
-
-type JourneyResponse = {
-  numberOfAdults: number;
-  nextOutboundQuery: string;
-  outboundJourneys: Array<OutboundJourney>;
-};
-
-type OutboundJourney = {
-  journeyId: string;
-  departureTime: string;
-  arrivalTime: string;
-  primaryTrainOperator: TrainOperator;
-  tickets: Array<Ticket>;
-  originStation: StationInfo;
-  destinationStation: StationInfo;
-};
-
-
-const defaultTicket: Ticket = {
-  name: 'no ticket selected',
-  priceInPennies: 0,
-};
 
 const getJourney = async (
   originStationCode: string,
@@ -89,7 +63,7 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
   useEffect(() => {
     let journeyOut = Array<JourneyOutput>();
     if (journey === null) {
-      journeyOut = null
+      journeyOut = null;
     } else {
       for (let i = 0; i < journey.outboundJourneys.length; i++) {
         journeyOut.push({
@@ -97,8 +71,8 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
           departureTime: journey.outboundJourneys[i].departureTime,
           arrivalTime: journey.outboundJourneys[i].arrivalTime,
           primaryTrainOperator:
-          journey.outboundJourneys[i].primaryTrainOperator,
-          tickets : journey.outboundJourneys[i].tickets,
+            journey.outboundJourneys[i].primaryTrainOperator,
+          tickets: journey.outboundJourneys[i].tickets,
           originStation: journey.outboundJourneys[i].originStation,
           destinationStation: journey.outboundJourneys[i].destinationStation,
         });
@@ -112,7 +86,7 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
       {}
       <Text style={styles.text}>Available Journeys</Text>
       {tickets == null && <Text>Loading, please wait...</Text>}
-      {tickets !== null && <TicketFlatList items={tickets} /> }
+      {tickets !== null && <TicketFlatList items={tickets} />}
     </View>
   );
 };
