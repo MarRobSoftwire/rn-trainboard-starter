@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { ScreenNavigationProps } from '../routes';
 import TicketFlatList from '../components/ticketsFlatList';
-import { JourneyResponse } from '../types/JourneyResponse';
+import { JourneyResponse, OutboundJourney } from '../types/JourneyResponse';
 import { JourneyOutput } from '../types/JourneyOutput';
 import getJourney from '../repository/getJourney';
 
@@ -43,18 +43,17 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
     if (journey === null) {
       journeyOut = null;
     } else {
-      for (let i = 0; i < journey.outboundJourneys.length; i++) {
-        journeyOut.push({
-          journeyID: journey.outboundJourneys[i].journeyId,
-          departureTime: journey.outboundJourneys[i].departureTime,
-          arrivalTime: journey.outboundJourneys[i].arrivalTime,
-          primaryTrainOperator:
-            journey.outboundJourneys[i].primaryTrainOperator,
-          tickets: journey.outboundJourneys[i].tickets,
-          originStation: journey.outboundJourneys[i].originStation,
-          destinationStation: journey.outboundJourneys[i].destinationStation,
-        });
-      }
+      journeyOut = journey.outboundJourneys.map(
+        (outboundJourney: OutboundJourney) => ({
+          journeyID: outboundJourney.journeyId,
+          departureTime: outboundJourney.departureTime,
+          arrivalTime: outboundJourney.arrivalTime,
+          primaryTrainOperator: outboundJourney.primaryTrainOperator,
+          tickets: outboundJourney.tickets,
+          originStation: outboundJourney.originStation,
+          destinationStation: outboundJourney.destinationStation,
+        }),
+      );
     }
     void setTickets(journeyOut);
   }, [journey]);
