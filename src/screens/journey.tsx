@@ -50,12 +50,17 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route }) => {
     void updateJourney();
   }, [route.params.arriveStation.value, route.params.departStation.value]);
 
+  const waitingForRoutes = tickets === null;
+  const noRoutes = tickets !== null && tickets.length === 0;
+  const routesFound = tickets !== null && tickets.length > 0;
+
   return (
     <View style={styles.container}>
       {}
-      <Text style={styles.text}>Available Journeys</Text>
-      {tickets === null && <Text>Loading, please wait...</Text>}
-      {tickets !== null && <TicketFlatList items={tickets} />}
+      <Text style={styles.text}>Available Journeys:</Text>
+      { waitingForRoutes && <Text>Loading, please wait...</Text>}
+      {noRoutes && <Text>No available routes</Text>}
+      {routesFound && <TicketFlatList items={tickets} />}
     </View>
   );
 };
