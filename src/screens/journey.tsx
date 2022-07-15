@@ -32,14 +32,7 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
       setJourney(journey);
     };
     void updateJourney();
-  }, [journey]);
-
-  const [tickets, setTickets] = React.useState<Array<JourneyOutput> | null>(
-    null,
-  );
-
-  useEffect(() => {
-    let journeyOut = Array<JourneyOutput>();
+    let journeyOut: Array<JourneyOutput> | null = Array<JourneyOutput>();
     if (journey === null) {
       journeyOut = null;
     } else {
@@ -55,8 +48,12 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
         }),
       );
     }
-    void setTickets(journeyOut);
+    setTickets(journeyOut);
   }, [journey]);
+
+  const [tickets, setTickets] = React.useState<Array<JourneyOutput> | null>(
+    null,
+  );
 
   return (
     <View style={styles.container}>
