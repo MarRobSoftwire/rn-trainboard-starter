@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.4,
     shadowRadius: 25,
+    width: 224
   },
   item: {
     padding: 4,
