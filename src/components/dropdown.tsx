@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { List } from 'react-native-paper';
-//import { Props } from 'react-native-paper/lib/typescript/components/RadioButton/RadioButton';
 import { DropdownItem, DropdownProps } from '../types/DropDownItem';
 
 const listStyle = StyleSheet.create({
@@ -17,12 +16,10 @@ const DropDown: React.FC<DropdownProps> = ({
   selected,
 }) => {
   const [expanded, setExpanded] = React.useState(true);
-  //const handlePress = () => setExpanded(!expanded);
   const itemSelected = (item: DropdownItem) => {
     setSelected(item);
     setExpanded(!expanded);
   };
-  //const [];
 
   return (
     <List.Section title={title}>
