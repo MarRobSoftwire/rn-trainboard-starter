@@ -1,23 +1,28 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { StyleSheet, View, } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import { config } from '../config';
 import { ScreenNavigationProps } from '../routes';
 import TicketFlatList from '../components/ticketsFlatList';
-import { JourneyOutput } from '../types/JourneyOutput';
+import {
+  JourneyOutput,
+  Ticket,
+  TrainOperator,
+  StationInfo,
+} from '../types/JourneyOutput';
 
 const baseUrl = 'https://mobile-api-softwire2.lner.co.uk';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#eee',
+    flex:1, 
+    backgroundColor: 'light blue',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
   },
   text: {
-    paddingBottom: 24,
+    padding:5,
   },
 });
 
@@ -34,28 +39,17 @@ type OutboundJourney = {
   departureTime: string;
   arrivalTime: string;
   primaryTrainOperator: TrainOperator;
-  tickets: Array<Tickets>;
+  tickets: Array<Ticket>;
+  originStation: StationInfo;
+  destinationStation: StationInfo;
 };
 
-type TrainOperator = {
-  code: string;
-  name: string;
+
+const defaultTicket: Ticket = {
+  name: 'no ticket selected',
+  priceInPennies: 0,
 };
 
-type Tickets = {
-  name: string;
-  priceInPennies: number;
-};
-
-const defaultJourneyOutput: JourneyOutput = {
-  journeyID: 'Waiting for journey ...',
-  departureTime: 'Waiting for departure time ...',
-  arrivalTime: 'Waiting for arrival time ...',
-};
-
-//
-//TODO: add originStation and destinationStation functionality
-//
 const getJourney = async (
   originStationCode: string,
   destinationStationCode: string,
@@ -88,20 +82,25 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
     void updateJourney();
   }, [journey]);
 
-  const [tickets, setTickets] = React.useState<Array<JourneyOutput>>([
-    defaultJourneyOutput,
-  ]);
+  const [tickets, setTickets] = React.useState<Array<JourneyOutput> | null>(
+    null,
+  );
 
   useEffect(() => {
-    const journeyOut = Array<JourneyOutput>();
+    let journeyOut = Array<JourneyOutput>();
     if (journey === null) {
-      journeyOut.push(defaultJourneyOutput);
+      journeyOut = null
     } else {
       for (let i = 0; i < journey.outboundJourneys.length; i++) {
         journeyOut.push({
           journeyID: journey.outboundJourneys[i].journeyId,
           departureTime: journey.outboundJourneys[i].departureTime,
           arrivalTime: journey.outboundJourneys[i].arrivalTime,
+          primaryTrainOperator:
+          journey.outboundJourneys[i].primaryTrainOperator,
+          tickets : journey.outboundJourneys[i].tickets,
+          originStation: journey.outboundJourneys[i].originStation,
+          destinationStation: journey.outboundJourneys[i].destinationStation,
         });
       }
     }
@@ -110,8 +109,10 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Journey Screen</Text>
-      <TicketFlatList items={tickets} />
+      {}
+      <Text style={styles.text}>Available Journeys</Text>
+      {tickets == null && <Text>Loading, please wait...</Text>}
+      {tickets !== null && <TicketFlatList items={tickets} /> }
     </View>
   );
 };

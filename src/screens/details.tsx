@@ -23,16 +23,6 @@ type DetailsScreenProps = ScreenNavigationProps<'Details'>;
 const DetailsScreen: React.FC<DetailsScreenProps> = ({ navigation }) => {
   const [departureStation, setDeparture] = React.useState(defaultStation);
   const [arrivalStation, setArrival] = React.useState(defaultStation);
-
-  function openTrainTimesUrl(
-    departureStationCode: string,
-    arrivalStationCode: string,
-  ) {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    Linking.openURL(
-      `https://www.lner.co.uk/travel-information/travelling-now/live-train-times/depart/${departureStationCode}/${arrivalStationCode}/#LiveDepResults`,
-    );
-  }
   return (
     <View style={styles.container}>
       <Text>Details Screen</Text>
@@ -51,21 +41,13 @@ const DetailsScreen: React.FC<DetailsScreenProps> = ({ navigation }) => {
       <Button
         mode="contained"
         onPress={() =>
-          openTrainTimesUrl(departureStation.value, arrivalStation.value)
-        }
-      >
-        Find trains
-      </Button>
-      <Button
-        mode="contained"
-        onPress={() =>
           navigation.navigate('Journey', {
             departStation: departureStation,
             arriveStation: arrivalStation,
           })
         }
       >
-        JourneyPage
+        Whens my train leaving?
       </Button>
     </View>
   );

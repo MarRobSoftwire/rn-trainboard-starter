@@ -1,21 +1,35 @@
 import React from 'react';
-import {View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { JourneyOutput } from '../types/JourneyOutput';
 
 const styles = StyleSheet.create({
-  item: {
-    padding: 20,
+  ticket: {
+    padding: 3,
     marginVertical: 8,
-    marginHorizontal: 16,
-    backgroundColor: 'orange'
-  }
-});
-
-const listStyle = StyleSheet.create({
-  container: {
-    backgroundColor: '#83ccde',
+    marginHorizontal: 10,
+    borderRadius: 20,
+    overflow: 'hidden',
+    shadowColor: "black",
+    shadowOffset: {
+      height:6,
+      width:6,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 25,
   },
+  item: {
+    padding: 4,
+    backgroundColor: 'white',
+  },
+  header: {
+    padding: 4,
+    backgroundColor: 'orange',
+  },
+  footer: {
+    align: 'right',
+    backgroundColor: 'orange',
+  }
 });
 
 type TicketFlatListProps = {
@@ -24,9 +38,28 @@ type TicketFlatListProps = {
 
 const TicketsFlatList: React.FC<TicketFlatListProps> = ({ items }) => {
   const renderItem = ({ item }) => (
-    <View style = {styles.item}>
-      <Text>{item.departureTime.slice(0,10)} {item.departureTime.slice(11,16)}</Text>
-      <Text>{item.arrivalTime.slice(0, 10)} {item.arrivalTime.slice(11, 16)}</Text>
+    <View style={styles.ticket}>
+      <View style={styles.header}>
+        <Text>{item.tickets[0].name}</Text>
+      </View>
+      <View style={styles.item}>
+        <Text>
+        From: {item.originStation.displayName} {'\n'}
+        To: {item.destinationStation.displayName}
+      </Text>
+        <Text>
+          {item.departureTime.slice(0, 10)} {item.departureTime.slice(11, 16)}
+        </Text>
+        <Text>
+          {item.arrivalTime.slice(0, 10)} {item.arrivalTime.slice(11, 16)}
+        </Text>
+        <Text>{item.primaryTrainOperator.name}</Text>
+      </View>
+      <View style={styles.footer}>
+        <Text>
+          £{item.tickets[0].priceInPennies / 100}.00
+        </Text>
+      </View>
     </View>
   );
   return (
