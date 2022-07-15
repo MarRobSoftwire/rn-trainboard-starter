@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { ScreenNavigationProps } from '../routes';
 import TicketFlatList from '../components/ticketsFlatList';
-import { JourneyResponse, OutboundJourney } from '../types/JourneyResponse';
 import { JourneyOutput } from '../types/JourneyOutput';
 import getJourney from '../repository/getJourney';
 

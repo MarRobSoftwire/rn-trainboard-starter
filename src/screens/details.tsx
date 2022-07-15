@@ -28,7 +28,7 @@ const DetailsScreen: React.FC<DetailsScreenProps> = ({ navigation }) => {
   const [departureStation, setDeparture] = React.useState(defaultStation);
   const [arrivalStation, setArrival] = React.useState(defaultStation);
 
-  const [items, setItems] = React.useState<DropdownItem[]>([defaultStation]);
+  const [items, setItems] = React.useState<DropdownItem[]>([]);
 
   useEffect(() => {
     const updateStations = async () => {
