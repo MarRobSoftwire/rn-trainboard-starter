@@ -10,10 +10,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 20,
     overflow: 'hidden',
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: {
-      height:6,
-      width:6,
+      height: 6,
+      width: 6,
     },
     shadowOpacity: 0.4,
     shadowRadius: 25,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     backgroundColor: 'orange',
-  }
+  },
 });
 
 type TicketFlatListProps = {
@@ -43,23 +43,23 @@ const TicketsFlatList: React.FC<TicketFlatListProps> = ({ items }) => {
       </View>
       <View style={styles.item}>
         <Text>
-        From: {item.originStation.displayName} {'\n'}
-        To: {item.destinationStation.displayName}
-      </Text>
+          From: {item.originStation.displayName} {'\n'}
+          To: {item.destinationStation.displayName}
+        </Text>
         <Text>
-          {mapIsoDateTimeToDisplayDate(item.departureTime)}{'  '}
+          {mapIsoDateTimeToDisplayDate(item.departureTime)}
+          {'  '}
           {mapIsoDateTimeToDisplayTime(item.departureTime)}
         </Text>
         <Text>
-          {mapIsoDateTimeToDisplayDate(item.arrivalTime)}{'  '}
+          {mapIsoDateTimeToDisplayDate(item.arrivalTime)}
+          {'  '}
           {mapIsoDateTimeToDisplayTime(item.arrivalTime)}
         </Text>
         <Text>{item.primaryTrainOperator.name}</Text>
       </View>
       <View style={styles.footer}>
-        <Text>
-          £{item.tickets[0].priceInPennies / 100}.00
-        </Text>
+        <Text>£{item.tickets[0].priceInPennies / 100}.00</Text>
       </View>
     </View>
   );
