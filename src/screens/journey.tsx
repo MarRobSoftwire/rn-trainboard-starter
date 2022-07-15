@@ -53,9 +53,14 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route }) => {
   return (
     <View style={styles.container}>
       {}
-      <Text style={styles.text}>Available Journeys</Text>
+      <Text style={styles.text}>Available Journeys:</Text>
       {tickets === null && <Text>Loading, please wait...</Text>}
-      {tickets !== null && <TicketFlatList items={tickets} />}
+      {tickets !== null && tickets.length === 0 && (
+        <Text>No available routes</Text>
+      )}
+      {tickets !== null && tickets.length > 0 && (
+        <TicketFlatList items={tickets} />
+      )}
     </View>
   );
 };
