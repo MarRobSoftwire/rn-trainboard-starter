@@ -1,16 +1,14 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text, Button } from 'react-native-paper';
-import { config } from '../config';
+import { Text } from 'react-native-paper';
 import { ScreenNavigationProps } from '../routes';
 import TicketFlatList from '../components/ticketsFlatList';
 import { JourneyResponse } from '../types/JourneyResponse';
 import { JourneyOutput } from '../types/JourneyOutput';
+import getJourney from '../repository/getJourney';
 
 type JourneyScreenProps = ScreenNavigationProps<'Journey'>;
-
-const baseUrl = 'https://mobile-api-softwire2.lner.co.uk';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,26 +21,6 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
-
-const getJourney = async (
-  originStationCode: string,
-  destinationStationCode: string,
-): Promise<JourneyResponse> => {
-  const response = await fetch(
-    `${baseUrl}/v1/fares?originStation=${originStationCode}&destinationStation=${destinationStationCode}&outboundDateTime=2022-07-15T12:16:27.371&numberOfChildren=0&numberOfAdults=1`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'x-api-key': config.apiKey,
-      },
-    },
-  );
-  const json = (await response.json()) as JourneyResponse;
-  return json;
-};
-
 const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
   const [journey, setJourney] = React.useState<JourneyResponse | null>(null);
   useEffect(() => {
