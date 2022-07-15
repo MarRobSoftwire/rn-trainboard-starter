@@ -21,7 +21,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => (
   <View style={styles.container}>
     <Text style={styles.text}>Home Screen</Text>
     <Button mode="contained" onPress={() => navigation.navigate('Details')}>
-      Go to details
+      Find a train time
     </Button>
   </View>
 );

@@ -46,7 +46,7 @@ const DetailsScreen: React.FC<DetailsScreenProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text>Details Screen</Text>
+      <Text>Where do you want to go?</Text>
       <DropDown
         title="From"
         items={items}
