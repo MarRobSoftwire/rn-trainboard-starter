@@ -59,7 +59,7 @@ const TicketsFlatList: React.FC<TicketFlatListProps> = ({ items }) => {
         <Text>{item.primaryTrainOperator.name}</Text>
       </View>
       <View style={styles.footer}>
-        <Text>£{item.tickets[0].priceInPennies / 100}.00</Text>
+        <Text>£{(item.tickets[0].priceInPennies / 100).toFixed(2)}</Text>
       </View>
     </View>
   );

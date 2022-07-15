@@ -21,23 +21,21 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
-const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
-  const [journey, setJourney] = React.useState<JourneyResponse | null>(null);
+const JourneyScreen: React.FC<JourneyScreenProps> = ({ route }) => {
+  const [tickets, setTickets] = React.useState<Array<JourneyOutput> | null>(
+    null,
+  );
+
   useEffect(() => {
     const updateJourney = async () => {
+      console.log('start api call');
       const journey = await getJourney(
-        route.params.departStation.value,
-        route.params.arriveStation.value,
+        route.params.departStation.value ?? 'KGX', // TODO: PLEASE FIX THESE TYPES AND REMOVE THIS
+        route.params.arriveStation.value ?? 'EDB', // TODO: PLEASE FIX THESE TYPES AND REMOVE THIS
       );
-      setJourney(journey);
-    };
-    void updateJourney();
-    let journeyOut: Array<JourneyOutput> | null = Array<JourneyOutput>();
-    if (journey === null) {
-      journeyOut = null;
-    } else {
-      journeyOut = journey.outboundJourneys.map(
-        (outboundJourney: OutboundJourney) => ({
+      console.log('response');
+      const mappedOutboundJourneys = journey.outboundJourneys.map(
+        (outboundJourney) => ({
           journeyID: outboundJourney.journeyId,
           departureTime: outboundJourney.departureTime,
           arrivalTime: outboundJourney.arrivalTime,
@@ -47,19 +45,16 @@ const JourneyScreen: React.FC<JourneyScreenProps> = ({ route, navigation }) => {
           destinationStation: outboundJourney.destinationStation,
         }),
       );
-    }
-    setTickets(journeyOut);
-  }, [journey]);
-
-  const [tickets, setTickets] = React.useState<Array<JourneyOutput> | null>(
-    null,
-  );
+      setTickets(mappedOutboundJourneys);
+    };
+    void updateJourney();
+  }, [route.params.arriveStation.value, route.params.departStation.value]);
 
   return (
     <View style={styles.container}>
       {}
       <Text style={styles.text}>Available Journeys</Text>
-      {tickets == null && <Text>Loading, please wait...</Text>}
+      {tickets === null && <Text>Loading, please wait...</Text>}
       {tickets !== null && <TicketFlatList items={tickets} />}
     </View>
   );
